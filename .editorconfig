@@ -1,0 +1,41 @@
+# Configuración compartida para Visual Studio / editores compatibles.
+# La intención es ayudar a aprender C# con formato consistente sin volver
+# las reglas tan estrictas que estorben durante las prácticas.
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = crlf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{cs,csproj,resx,config}]
+indent_style = space
+indent_size = 4
+
+[*.cs]
+# Usings
+dotnet_sort_system_directives_first = true
+dotnet_separate_import_directive_groups = false
+
+# Legibilidad
+csharp_prefer_braces = true:suggestion
+csharp_style_expression_bodied_methods = false:silent
+csharp_style_expression_bodied_constructors = false:silent
+csharp_style_expression_bodied_properties = true:silent
+
+# Para aprendizaje, preferimos tipos explícitos cuando aportan claridad.
+csharp_style_var_for_built_in_types = false:silent
+csharp_style_var_when_type_is_apparent = false:silent
+csharp_style_var_elsewhere = false:silent
+
+# Evita escribir this. cuando no hace falta.
+dotnet_style_qualification_for_field = false:suggestion
+dotnet_style_qualification_for_property = false:suggestion
+dotnet_style_qualification_for_method = false:suggestion
+dotnet_style_qualification_for_event = false:suggestion
+
+# Visual Studio mostrará sugerencias útiles sin convertirlas en errores.
+dotnet_diagnostic.IDE0005.severity = suggestion
+dotnet_diagnostic.IDE0055.severity = suggestion

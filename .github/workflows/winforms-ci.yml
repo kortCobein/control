@@ -1,0 +1,36 @@
+name: WinForms CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build .NET Framework 4.8.1
+    runs-on: windows-2022
+    timeout-minutes: 10
+
+    steps:
+      - name: Obtener código
+        uses: actions/checkout@v4
+
+      - name: Configurar MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Compilar en Release
+        shell: pwsh
+        run: msbuild .\control.csproj /m /p:Configuration=Release /p:Platform=AnyCPU
+
+      - name: Guardar compilación
+        uses: actions/upload-artifact@v4
+        with:
+          name: control-winforms-release
+          path: bin\Release\**
+          if-no-files-found: error
+          retention-days: 14
