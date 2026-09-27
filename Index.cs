@@ -14,6 +14,7 @@ namespace control
 {
     public partial class Index : System.Windows.Forms.Form
     {
+        private const int DWMWA_BORDER_COLOR = 34;
         private const int DWMWA_CAPTION_COLOR = 35;
         private const int DWMWA_TEXT_COLOR = 36;
 
@@ -25,7 +26,7 @@ namespace control
             int cbAttribute
         );
 
-        private void AplicarColorBarraTitulo()
+        private void AplicarTemaVentana()
         {
             if (LicenseManager.UsageMode == LicenseUsageMode.Designtime) return;
             if (!this.IsHandleCreated) return;
@@ -34,7 +35,9 @@ namespace control
             {
                 int azulUT = ColorTranslator.ToWin32(UTColors.Blue);
                 int blanco = ColorTranslator.ToWin32(UTColors.White);
+                int verdeUT = ColorTranslator.ToWin32(UTColors.Green);
 
+                // Color de fondo de la barra de título (Azul UT)
                 DwmSetWindowAttribute(
                     this.Handle,
                     DWMWA_CAPTION_COLOR,
@@ -42,10 +45,19 @@ namespace control
                     sizeof(int)
                 );
 
+                // Color del texto del título (Blanco)
                 DwmSetWindowAttribute(
                     this.Handle,
                     DWMWA_TEXT_COLOR,
                     ref blanco,
+                    sizeof(int)
+                );
+
+                // Color del contorno/borde de la ventana (Verde UT)
+                DwmSetWindowAttribute(
+                    this.Handle,
+                    DWMWA_BORDER_COLOR,
+                    ref verdeUT,
                     sizeof(int)
                 );
             }
@@ -211,12 +223,12 @@ namespace control
         protected override void OnHandleCreated(EventArgs e)
         {
             base.OnHandleCreated(e);
-            AplicarColorBarraTitulo();
+            AplicarTemaVentana();
         }
 
         private void Index_Load(object sender, EventArgs e)
         {
-            AplicarColorBarraTitulo();
+            AplicarTemaVentana();
         }
     }
 
