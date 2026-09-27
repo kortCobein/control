@@ -8,11 +8,54 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using control.Theme;
 
 namespace control
 {
     public partial class Index : System.Windows.Forms.Form
     {
+        private const int DWMWA_CAPTION_COLOR = 35;
+        private const int DWMWA_TEXT_COLOR = 36;
+
+        [DllImport("dwmapi.dll")]
+        private static extern int DwmSetWindowAttribute(
+            IntPtr hwnd,
+            int dwAttribute,
+            ref int pvAttribute,
+            int cbAttribute
+        );
+
+        private void AplicarColorBarraTitulo()
+        {
+            if (LicenseManager.UsageMode == LicenseUsageMode.Designtime) return;
+            if (!this.IsHandleCreated) return;
+
+            try
+            {
+                int azulUT = ColorTranslator.ToWin32(UTColors.Blue);
+                int blanco = ColorTranslator.ToWin32(UTColors.White);
+
+                DwmSetWindowAttribute(
+                    this.Handle,
+                    DWMWA_CAPTION_COLOR,
+                    ref azulUT,
+                    sizeof(int)
+                );
+
+                DwmSetWindowAttribute(
+                    this.Handle,
+                    DWMWA_TEXT_COLOR,
+                    ref blanco,
+                    sizeof(int)
+                );
+            }
+            catch
+            {
+                // Silencioso en versiones anteriores de Windows
+            }
+        }
+
+
         // Relación de aspecto deseada (16:9) para el área interna (ClientSize)
         private const double AspectRatio = 16.0 / 9.0;
 
@@ -165,9 +208,15 @@ namespace control
             base.WndProc(ref m);
         }
 
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+            AplicarColorBarraTitulo();
+        }
+
         private void Index_Load(object sender, EventArgs e)
         {
-
+            AplicarColorBarraTitulo();
         }
     }
 
