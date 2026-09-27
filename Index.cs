@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace control
 {
-    public partial class Index : Form
+    public partial class Index : System.Windows.Forms.Form
     {
         // Relación de aspecto deseada (16:9) para el área interna (ClientSize)
         private const double AspectRatio = 16.0 / 9.0;
@@ -28,25 +28,20 @@ namespace control
         private const int WMSZ_BOTTOMLEFT = 7;
         private const int WMSZ_BOTTOMRIGHT = 8;
 
-        [StructLayout(LayoutKind.Sequential)]
-        private struct RECT
-        {
-            public int Left;
-            public int Top;
-            public int Right;
-            public int Bottom;
-        }
-
         public Index()
         {
             InitializeComponent();
 
-            // Optimización de renderizado para evitar parpadeos
+            // Optimización de renderizado para evitar parpadeos y actualizar al redimensionar
             this.DoubleBuffered = true;
             this.SetStyle(ControlStyles.OptimizedDoubleBuffer |
                           ControlStyles.AllPaintingInWmPaint |
-                          ControlStyles.UserPaint, true);
+                          ControlStyles.UserPaint |
+                          ControlStyles.ResizeRedraw, true);
             this.UpdateStyles();
+
+            // Asegura que la imagen de fondo siempre rellene todo el formulario
+            this.BackgroundImageLayout = ImageLayout.Stretch;
 
             FormBorderStyle = FormBorderStyle.Sizable;
 
@@ -60,7 +55,10 @@ namespace control
             get
             {
                 CreateParams cp = base.CreateParams;
-                cp.ExStyle |= 0x02000000; // WS_EX_COMPOSITED
+                if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
+                {
+                    cp.ExStyle |= 0x02000000; // WS_EX_COMPOSITED
+                }
                 return cp;
             }
         }
@@ -171,5 +169,14 @@ namespace control
         {
 
         }
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct RECT
+    {
+        public int Left;
+        public int Top;
+        public int Right;
+        public int Bottom;
     }
 }
