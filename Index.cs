@@ -81,10 +81,10 @@ namespace control
                 int proposedClientH = (rect.Bottom - rect.Top) - borderH;
 
                 // Límite mínimo para mantener la ventana utilizable
-                if (proposedClientW < 320)
+                if (proposedClientW < 640)
                 {
-                    proposedClientW = 320;
-                    proposedClientH = (int)Math.Round(320 / AspectRatio);
+                    proposedClientW = 640;
+                    proposedClientH = (int)Math.Round(640 / AspectRatio);
                 }
 
                 int edge = m.WParam.ToInt32();
@@ -167,7 +167,7 @@ namespace control
             base.WndProc(ref m);
         }
 
-        private void Inicio_Load(object sender, EventArgs e)
+        private void Index_Load(object sender, EventArgs e)
         {
 
         }
