@@ -153,6 +153,60 @@ Esto permite modificar el control desde la ventana **Properties** sin editar dir
 
 **Control personalizado:** cuando se necesita controlar directamente el dibujo, medidas o comportamiento y un control nativo ya no es suficiente.
 
+## Estrategia de ramas para aprender por capas
+
+Las ramas están separadas por responsabilidad para poder practicar un concepto a la vez y evitar mezclar estética, comportamiento y lógica.
+
+| Rama | Objetivo |
+|---|---|
+| `master` | Base estable. Solo debe recibir trabajo que ya compile y esté entendido. |
+| `architecture/poo-solid` | Clases base, interfaces, herencia, composición, encapsulamiento, polimorfismo y aplicación gradual de SOLID. |
+| `ui/aesthetics` | Apariencia pura: colores, tipografía, bordes, radios, sombras, tamaños y espaciados. |
+| `ui/visual-behaviors` | Estados visuales y respuesta de interfaz: hover, focus, pressed, selected, disabled y transiciones. |
+| `controls/buttons` | Botones reutilizables y sus variantes. |
+| `controls/panels` | Paneles, contenedores, tarjetas y superficies reutilizables. |
+| `controls/text` | Labels, títulos, textos informativos y controles de texto de solo presentación. |
+| `controls/inputs` | TextBox, ComboBox, CheckBox y otros controles de entrada personalizados. |
+| `controls/composite` | `UserControl` y componentes formados por varios controles. |
+| `logic/control-logic` | Código lógico reutilizable que no debe quedar pegado a un formulario concreto. |
+| `logic/validation` | Validaciones, reglas de entrada, estados válidos/inválidos y mensajes de error. |
+| `integration/playground` | Zona para combinar varias ramas y experimentar antes de llevar algo a `master`. |
+
+La intención no es que cada rama termine siendo un producto independiente. Funcionan como laboratorios temáticos. Cuando un concepto ya está claro y funciona, se integra en `integration/playground`; después de comprobarlo, puede pasar a `master`.
+
+Ejemplo:
+
+```text
+architecture/poo-solid
+        ↓
+controls/buttons
+        ↓
+ui/aesthetics
+        ↓
+ui/visual-behaviors
+        ↓
+logic/control-logic
+        ↓
+integration/playground
+        ↓
+master
+```
+
+### Cómo usar POO y SOLID sin forzarlos
+
+No se van a meter patrones porque sí. Cada principio debe resolver un problema real:
+
+- **Encapsulación:** un control conserva internamente su estado y expone solo lo necesario mediante propiedades.
+- **Herencia:** un `ButtonUT` puede heredar de `Button` cuando realmente sigue siendo un botón.
+- **Composición:** un control complejo puede estar formado por otros controles en lugar de crear una jerarquía enorme.
+- **SRP:** estética, validación y lógica de negocio no deberían crecer dentro de una sola clase.
+- **OCP:** agregar una variante de control debería requerir extender comportamiento, no romper controles ya terminados.
+- **LSP:** un control derivado debe seguir pudiendo usarse donde se espera su clase base.
+- **ISP:** interfaces pequeñas y enfocadas cuando aparezcan comportamientos compartidos reales.
+- **DIP:** la lógica que lo necesite dependerá de abstracciones y no de implementaciones rígidas.
+
+Esto permite que el repositorio sirva para aprender primero POO de forma tangible y después entender por qué SOLID resulta útil.
+
 ## Automatización incluida
 
 El repositorio tiene el workflow:
@@ -161,7 +215,7 @@ El repositorio tiene el workflow:
 .github/workflows/winforms-ci.yml
 ```
 
-Cada `push` y Pull Request contra `master` ejecuta una compilación limpia en Windows mediante MSBuild.
+Cada `push` en cualquier rama y cada Pull Request hacia `master` ejecuta una compilación limpia en Windows mediante MSBuild.
 
 ```text
 push / pull request
