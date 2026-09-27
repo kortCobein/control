@@ -48,18 +48,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Inicio.cs">
+    <Compile Include="Index.cs">
       <SubType>Form</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Inicio.Designer.cs">
-      <DependentUpon>Inicio.cs</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Include="Index.Designer.cs">
+      <DependentUpon>Index.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Inicio.resx">
-      <DependentUpon>Inicio.cs</DependentUpon>
+    <EmbeddedResource Include="Index.resx">
+      <DependentUpon>Index.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -84,7 +82,30 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="src\" />
+    <Folder Include="src\background\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="src\icons\1CD8_rundll32.0.ico" />
+    <Content Include="src\icons\1password.ico" />
+    <Content Include="src\icons\asc-de.ico" />
+    <Content Include="src\icons\atomix.ico" />
+    <Content Include="src\icons\audio-headphones.ico" />
+    <Content Include="src\icons\autopackage-installer.ico" />
+    <Content Include="src\icons\avidemux.ico" />
+    <Content Include="src\icons\battery_1.ico" />
+    <Content Include="src\icons\ccc-large.ico" />
+    <Content Include="src\icons\figma_1.ico" />
+    <Content Include="src\icons\github_1.ico" />
+    <Content Include="src\icons\GOG Icon.ico" />
+    <Content Include="src\icons\gtkclocksetup.ico" />
+    <Content Include="src\images\03.png" />
+    <Content Include="src\images\edu.png" />
+    <Content Include="src\images\icono.png" />
+    <Content Include="src\images\logo-estado-color.png" />
+    <Content Include="src\images\queretaro_logo.png" />
+    <Content Include="src\images\soyut.webp" />
+    <Content Include="src\images\ut_logo_color.png" />
+    <Content Include="src\images\ut_logo_white.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
